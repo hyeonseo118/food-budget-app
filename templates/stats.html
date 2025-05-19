@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>소비 통계</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 1.5rem;
+    }
+    .chart-container {
+      max-width: 700px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <h2 class="text-center mb-4">📊 소비 통계</h2>
+
+  <!-- ✅ 차트 영역 -->
+  <div class="chart-container">
+    <canvas id="spendingChart"></canvas>
+  </div>
+
+  <!-- ✅ 상세 보기 버튼 -->
+  <div class="text-center mt-4">
+    <a href="/stats/detail" class="btn btn-outline-primary px-4 py-2">소비 상세 보기</a>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('spendingChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['월', '화', '수', '목', '금', '토', '일'],
+        datasets: [{
+          label: '소비 금액 (원)',
+          data: [12000, 8000, 15000, 6000, 11000, 20000, 14000],
+          backgroundColor: 'rgba(75, 192, 192, 0.5)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // 차트 높이 비율 조절
+    document.getElementById('spendingChart').parentElement.style.height = "300px";
+  </script>
+</body>
+</html>

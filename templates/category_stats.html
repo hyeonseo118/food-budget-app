@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>카테고리별 소비 통계</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            padding: 30px;
+            background: #fff;
+        }
+        canvas {
+            max-width: 500px;
+            margin: auto;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>📂 카테고리별 지출 비중</h2>
+    <canvas id="doughnutChart"></canvas>
+
+    <script>
+        const ctx = document.getElementById('doughnutChart').getContext('2d');
+        const doughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: {{ labels | tojson }},
+                datasets: [{
+                    label: '지출 금액',
+                    data: {{ data | tojson }},
+                    backgroundColor: [
+                        '#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8',
+                        '#6c757d', '#f39c12', '#8e44ad', '#2ecc71', '#e74c3c'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>지도 기반 식당 추천</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 1rem;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    #event-alert {
+      display: none;
+      background: #eaf6ff;
+      padding: 12px;
+      border: 1px solid #b3d4fc;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    #map {
+      width: 100%;
+      height: 65vh;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 8px;
+      padding: 6px 12px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>📍 내 주변 식당 추천</h2>
+
+  <!-- ✅ 이벤트 알림 박스 -->
+  <div id="event-alert">
+    📣 <strong>이벤트 정보가 있어요!</strong>
+    <a href="/events" style="color: #007bff; text-decoration: underline;">이벤트 확인하기</a>
+  </div>
+
+  <!-- ✅ 지도 -->
+  <div id="map"></div>
+
+  <script>
+    function initMap() {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+
+          const map = new google.maps.Map(document.getElementById('map'), {
+            center: userLocation,
+            zoom: 15
+          });
+
+          // 내 위치 마커
+          new google.maps.Marker({
+            position: userLocation,
+            map: map,
+            label: "나"
+          });
+
+          // 주변 식당 마커
+          fetch(`/nearby?lat=${userLocation.lat}&lng=${userLocation.lng}`)
+            .then(response => response.json())
+            .then(results => {
+              results.forEach(place => {
+                const marker = new google.maps.Marker({
+                  position: { lat: place.lat, lng: place.lng },
+                  map: map,
+                  title: place.name
+                });
+
+                const infowindow = new google.maps.InfoWindow({
+                  content: `
+                    <strong>${place.name}</strong><br>
+                    <button onclick="saveFavorite('${place.name}', ${place.lat}, ${place.lng})">
+                      💖 찜하기
+                    </button>
+                  `
+                });
+
+                marker.addListener('click', () => {
+                  infowindow.open(map, marker);
+                });
+              });
+            });
+
+          // 이벤트 존재 여부 표시
+          fetch('/events.json')
+            .then(res => res.json())
+            .then(data => {
+              if (data.length > 0) {
+                document.getElementById("event-alert").style.display = "block";
+              }
+            });
+        },
+        () => {
+          alert("위치 정보를 가져올 수 없습니다.");
+        }
+      );
+    }
+
+    function saveFavorite(name, lat, lng) {
+      fetch('/favorite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, lat, lng })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("찜 완료!");
+        } else {
+          alert("실패: " + data.error);
+        }
+      });
+    }
+  </script>
+
+  <!-- ✅ Google Maps API -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvBexqJOsexHnjdzpbUgFuMrrWCqhA-Y8&callback=initMap">
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>이벤트 식당 목록</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 30px;
+      background-color: #f8f9fa;
+    }
+    .event-box {
+      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .event-box h3 {
+      margin: 0 0 5px;
+      font-size: 20px;
+      color: #343a40;
+    }
+    .event-box p {
+      margin: 0;
+      color: #495057;
+    }
+    .event-box a {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #0d6efd;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>📢 이벤트 진행 중인 식당</h2>
+  {% for e in events %}
+    <div class="event-box">
+      <h3>{{ e.name }}</h3>
+      {% if e.event %}
+        <p>{{ e.event }}</p>
+      {% endif %}
+      {% if e.link %}
+        <a href="{{ e.link }}" target="_blank">🔗 상세보기</a>
+      {% endif %}
+    </div>
+  {% endfor %}
+</body>
+</html>

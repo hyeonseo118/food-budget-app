@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>찜한 식당 목록</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h2 { margin-bottom: 10px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        form { margin: 0; }
+        .del-btn {
+            background-color: crimson;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>💖 찜한 식당 목록</h2>
+    {% if favorites %}
+        <table>
+            <tr>
+                <th>이름</th>
+                <th>위도</th>
+                <th>경도</th>
+                <th>삭제</th>
+            </tr>
+            {% for id, name, lat, lng in favorites %}
+            <tr>
+                <td>{{ name }}</td>
+                <td>{{ lat }}</td>
+                <td>{{ lng }}</td>
+                <td>
+                    <form action="/favorites/delete/{{ id }}" method="POST">
+                        <button type="submit" class="del-btn">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>아직 찜한 식당이 없습니다.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>예산 설정</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container py-4">
+  <h2 class="text-center mb-4">💰 예산 설정</h2>
+
+  <!-- ✅ 예산 입력 폼 -->
+  <form method="POST" class="row gy-2 gx-3 align-items-center mb-4 justify-content-center">
+    <div class="col-12 col-md-6">
+      <input type="number" name="amount" class="form-control" placeholder="월 예산 (원)"
+             value="{{ budget.amount }}" required>
+    </div>
+    <div class="col-12 col-md-auto">
+      <button type="submit" class="btn btn-primary w-100">저장</button>
+    </div>
+  </form>
+
+  <!-- ✅ 예산 정보 표시 -->
+  {% if budget.amount %}
+    <div class="text-center">
+      <p class="mb-1">📌 현재 예산: <strong>{{ budget.amount }}</strong> 원</p>
+      <p class="mb-1">💸 이번 달 소비: <strong>{{ monthly_spending }}</strong> 원</p>
+
+      {% if is_over %}
+        <div class="alert alert-danger mt-3">⚠️ 예산을 초과했습니다! ({{ remaining | abs }}원 초과)</div>
+      {% else %}
+        <div class="alert alert-success mt-3">✅ 남은 예산: {{ remaining }}원</div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <!-- 홈으로 이동 -->
+  <div class="text-center mt-4">
+    <a href="/" class="btn btn-secondary">🏠 홈으로</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>홈 - 식비 관리 앱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+
+  <!-- ✅ 로그인 상태에 따라 메뉴 표시 -->
+  <div class="text-end mb-3">
+    {% if user %}
+      👋 <strong>{{ user }}</strong>님, 환영합니다!
+      <a href="/logout" class="ms-3">[로그아웃]</a>
+    {% else %}
+      <a href="/login">로그인</a> | <a href="/signup">회원가입</a>
+    {% endif %}
+  </div>
+
+  <h1 class="text-center mb-4">🍱 대학생 식비 관리 앱</h1>
+
+  <!-- ✅ 주요 메뉴 링크 -->
+  <ul class="list-group">
+    <li class="list-group-item"><a href="/input">📥 소비 기록 입력</a></li>
+    <li class="list-group-item"><a href="/budget">💰 예산 설정</a></li>
+    <li class="list-group-item"><a href="/stats">📊 소비 통계 보기</a></li>
+    <li class="list-group-item"><a href="/wishlist">💖 찜한 식당 목록</a></li>
+    <li class="list-group-item"><a href="/map">📍 주변 식당 추천</a></li>
+    <li class="list-group-item"><a href="/events">📣 이벤트 식당 확인</a></li>
+  </ul>
+
+</body>
+</html>

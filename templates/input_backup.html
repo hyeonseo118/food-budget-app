@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>소비기록 입력</title>
+</head>
+<body>
+    <h2>소비 내역 입력</h2>
+
+    <!-- 소비 입력 폼 -->
+    <form method="POST">
+        <label>장소:</label><br>
+        <input type="text" name="place" required><br><br>
+
+        <label>금액:</label><br>
+        <input type="number" name="amount" required><br><br>
+
+        <label>종류:</label><br>
+        <select name="category" required>
+            <option value="한식">한식</option>
+            <option value="일식">일식</option>
+            <option value="양식">양식</option>
+            <option value="기타">기타</option>
+        </select><br><br>
+
+        <button type="submit">추가하기</button>
+    </form>
+
+    <hr>
+
+    <!-- 날짜 필터 폼 -->
+    <h3>날짜별 소비기록 보기</h3>
+    <form method="GET">
+        <input type="date" name="date">
+        <button type="submit">검색</button>
+        <a href="/input"><button type="button">전체 보기</button></a>
+    </form>
+
+    <hr>
+
+    <!-- 소비기록 출력 -->
+    <h3>입력된 내역</h3>
+    {% for record in records %}
+        <p>{{ record[1] }} / {{ record[2] }}원 / {{ record[3] }} ({{ record[0] }})</p>
+    {% endfor %}
+</body>
+</html>
